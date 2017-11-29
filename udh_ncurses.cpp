@@ -20,21 +20,25 @@ void udh_screen::correctDiffabledisplaySize(){
   }else{
     debugv(4,"size was 0:0");
   }
-  for(uint i=diffabledisplay.size();i<screenRows;i++){
-    diffabledisplay.push_back(std::deque<char>(' '));
-  }
-  for(uint i=diffabledisplay.size();i>screenRows;i--){
-    diffabledisplay.pop_back();
-  }
-  for(uint j=0;j<diffabledisplay.size();j++){
-    debugv(5,"row size was "+std::to_string(diffabledisplay[j].size()));
-    for(uint i=diffabledisplay[j].size();i<screenCols;i++){
-      diffabledisplay[j].push_back(' ');
+  if(diffabledisplay.size()!=screenRows){
+    for(uint i=diffabledisplay.size();i<screenRows;i++){
+      diffabledisplay.push_back(std::deque<char>(' '));
     }
-    for(uint i=diffabledisplay[j].size();i>screenCols;i--){
-      diffabledisplay[j].pop_back();
+    for(uint i=diffabledisplay.size();i>screenRows;i--){
+      diffabledisplay.pop_back();
     }
-    debugv(5,"row size is now "+std::to_string(diffabledisplay[j].size()));
+  }
+  if(diffabledisplay.size() && diffabledisplay[0].size()!=screenCols){
+    for(uint j=0;j<diffabledisplay.size();j++){
+      debugv(5,"row size was "+std::to_string(diffabledisplay[j].size()));
+      for(uint i=diffabledisplay[j].size();i<screenCols;i++){
+	diffabledisplay[j].push_back(' ');
+      }
+      for(uint i=diffabledisplay[j].size();i>screenCols;i--){
+	diffabledisplay[j].pop_back();
+      }
+      debugv(5,"row size is now "+std::to_string(diffabledisplay[j].size()));
+    }
   }
   if(diffabledisplay.size()!=0){
     debugv(4,"size is now "+std::to_string(diffabledisplay.size())+":"+std::to_string(diffabledisplay[0].size()));
