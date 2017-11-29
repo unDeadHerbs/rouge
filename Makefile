@@ -7,7 +7,7 @@ OBJECTS     = $(HPPS:.hpp=.o)
 all: tags mains clean
 
 mains: $(OBJECTS)
-	for f in `ls *.*` ; do \
+	-for f in `ls *.*` ; do \
 		etags $$f -o - | grep "int main(" - > /dev/null && echo $$f | sed -e 's/[.][^.]*$$/.bin/' -e 's/.*/make &/' |sh; \
 	done
 
