@@ -12,12 +12,11 @@ private:
 
   void correctDiffabledisplaySize();
   void initilizeNcurses();
-  void refreshScreen();
 public:
   udh_screen();
   ~udh_screen();
   void drawToScreen(std::deque<std::string> lines);
-  void updateScreen();
+  void refreshScreen();
   void screenResizedTriger(int code);
   void distructScreen();
   int getKey();

@@ -15,7 +15,7 @@ int main(){
   new_rows.push_back("row two");
   Screen.drawToScreen(new_rows);
   usleep(3*1000*1000);
-  Screen.updateScreen();
+  Screen.refreshScreen();
   usleep(3*1000*1000);
   return 0;
 }

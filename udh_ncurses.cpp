@@ -56,25 +56,20 @@ void udh_screen::initilizeNcurses(){
   getmaxyx(stdscr,screenRows,screenCols);
   debug(2,"screen size set to "+std::to_string(screenRows)+":"+std::to_string(screenCols));
   win=newwin(screenRows,screenCols,0,0);
-  //mainbuffer.setSize(screenRows,screenCols);
   correctDiffabledisplaySize();
   refreshScreen();
 }
 
 void udh_screen::refreshScreen(){
   if(!refreshed){
-    //clear();
     wrefresh(win);
-    //refresh();
-    //doupdate();
-    //redrawwin(win);
     refreshed=true;
   }
-  //return false;
 }
 
 void udh_screen::drawToScreen(std::deque<std::string> lines){
   //TODO ablility to update a rectangle of the screen
+  refreshed=false;
   debug(2,"drawToScreen");
   for(uint r=0;r<diffabledisplay.size()&&r<lines.size();r++){
     if(r<lines.size()){
@@ -93,27 +88,11 @@ void udh_screen::drawToScreen(std::deque<std::string> lines){
   }
 }
 
-void udh_screen::updateScreen(){
-  debug(2,"updating screen");
-  correctDiffabledisplaySize();
-  auto lines=std::deque<std::string>();//=mainbuffer.screen();
-  for(auto l:lines){
-    debug(2,l);
-  }
-  drawToScreen(lines);
-  //mainbuffer.getCursor(cursorRow,cursorCol);
-  wmove(win,cursorRow,cursorCol);
-  refreshed=false;
-  debug(2,"refresh");
-  refreshScreen();
-}
-
 void udh_screen::screenResizedTriger(int code){
   debug(1,"screenResizedTriger: "+std::to_string(code));
   getmaxyx(win,screenRows,screenCols);
-  //mainbuffer.setSize(screenRows,screenCols);
   refreshed=false;
-  updateScreen();
+  refreshScreen();
 }
 
 void udh_screen::distructScreen(){
