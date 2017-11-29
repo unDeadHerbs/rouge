@@ -14,7 +14,7 @@ private:
 public:
   udh_screen();
   ~udh_screen();
-  void drawToScreen(std::deque<std::string> lines);
+  void drawToScreen(std::deque<std::string> lines,uint x=0,uint y=0);
   void refreshScreen();
   void screenResizedTriger(int code);
   int getKey();

@@ -64,21 +64,21 @@ void udh_screen::refreshScreen(){
   }
 }
 
-void udh_screen::drawToScreen(std::deque<std::string> lines){
+void udh_screen::drawToScreen(std::deque<std::string> lines,uint x,uint y){
   //TODO ablility to update a rectangle of the screen
   refreshed=false;
   debug(2,"drawToScreen");
-  for(uint r=0;r<diffabledisplay.size()&&r<lines.size();r++){
+  for(uint r=0;r+y<diffabledisplay.size()&&r<lines.size();r++){
     if(r<lines.size()){
       debugv(2,lines[r]);
       debugv(2,"cliping to length"+std::to_string(diffabledisplay[r].size()));
     }
-    for(uint c=0;c<diffabledisplay[r].size()&&c<lines[r].size();c++){
-      wmove(win,r,c);
+    for(uint c=0;c+x<diffabledisplay[r].size()&&c<lines[r].size();c++){
+      wmove(win,r+y,c+x);
       debugv(5,"diffabledisplay cursor moved");
       if(lines[r]/*.c_str()*/[c]!=diffabledisplay[r][c]){
 	debug(5,"update diffabledisplay location "+std::to_string(r)+","+std::to_string(c)+" to "+lines[r].c_str()[c]);
-	diffabledisplay[r][c]=lines[r].c_str()[c];
+	diffabledisplay[r+y][c+x]=lines[r].c_str()[c];
 	waddch(win,lines[r].c_str()[c]);
       }
     }
