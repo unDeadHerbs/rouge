@@ -8,7 +8,9 @@ udh_screen::udh_screen(){
   win=0;
   initilizeNcurses();
 }
-udh_screen::~udh_screen(){}
+udh_screen::~udh_screen(){
+  distructScreen();
+}
 
 void udh_screen::correctDiffabledisplaySize(){
   debug(3,"correctDiffabledisplaySize");
