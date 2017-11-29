@@ -11,13 +11,11 @@ private:
   std::deque<std::deque<char> > diffabledisplay;
 
   void correctDiffabledisplaySize();
-  void initilizeNcurses();
 public:
   udh_screen();
   ~udh_screen();
   void drawToScreen(std::deque<std::string> lines);
   void refreshScreen();
   void screenResizedTriger(int code);
-  void distructScreen();
   int getKey();
 };

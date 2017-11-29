@@ -5,11 +5,21 @@ udh_screen::udh_screen(){
   static bool first=true;
   assert(first);
   first=false;
-  win=0;
-  initilizeNcurses();
+
+  initscr();
+  cbreak();
+  noecho();
+  keypad(stdscr,TRUE);
+  nodelay(stdscr,TRUE);
+  getmaxyx(stdscr,screenRows,screenCols);
+  debug(2,"screen size set to "+std::to_string(screenRows)+":"+std::to_string(screenCols));
+  win=newwin(screenRows,screenCols,0,0);
+  correctDiffabledisplaySize();
+  refreshScreen();
+
 }
 udh_screen::~udh_screen(){
-  distructScreen();
+  endwin();
 }
 
 void udh_screen::correctDiffabledisplaySize(){
@@ -47,19 +57,6 @@ void udh_screen::correctDiffabledisplaySize(){
   }
 }
 
-void udh_screen::initilizeNcurses(){
-  initscr();
-  cbreak();
-  noecho();
-  keypad(stdscr,TRUE);
-  nodelay(stdscr,TRUE);
-  getmaxyx(stdscr,screenRows,screenCols);
-  debug(2,"screen size set to "+std::to_string(screenRows)+":"+std::to_string(screenCols));
-  win=newwin(screenRows,screenCols,0,0);
-  correctDiffabledisplaySize();
-  refreshScreen();
-}
-
 void udh_screen::refreshScreen(){
   if(!refreshed){
     wrefresh(win);
@@ -93,10 +90,6 @@ void udh_screen::screenResizedTriger(int code){
   getmaxyx(win,screenRows,screenCols);
   refreshed=false;
   refreshScreen();
-}
-
-void udh_screen::distructScreen(){
-  endwin();
 }
 
 int udh_screen::getKey(){
