@@ -13,7 +13,7 @@ using std::ofstream;
 template<typename str>
 void debug(int level,str mesg,int warning){
 	ofstream logfile;
-  logfile.open("warnings.log");
+	logfile.open("warnings.log",std::ios::app);
 	if(warning>WARNING){
 		#if WARNING>0
 			#if DEBUG>0
