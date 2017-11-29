@@ -7,10 +7,19 @@
 	#ifndef _UDH_DEBUGGER
 	#define _UDH_DEBUGGER
 	#define NDEBUG
-	#define DEBUGLOG 1
-	#define DEBUG 0
-	#define WARNING 1
-	#define VERBOSE 3
+	#ifndef DEBUGLOG
+		#define DEBUGLOG 0
+	#endif
+
+	#ifndef DEBUG
+		#define DEBUG 0
+	#endif
+	#ifndef WARNING
+		#define WARNING 1
+	#endif
+	#ifndef VERBOSE
+		#define VERBOSE 3
+	#endif
 	#endif
 
 	#include <unistd.h>
