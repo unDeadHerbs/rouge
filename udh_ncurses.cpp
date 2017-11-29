@@ -72,25 +72,19 @@ void udh_screen::refreshScreen(){
 void udh_screen::drawToScreen(std::deque<std::string> lines){
   //TODO ablility to update a rectangle of the screen
   debug(2,"drawToScreen");
-  for(uint r=0;r<diffabledisplay.size();r++){
+  for(uint r=0;r<diffabledisplay.size()&&r<lines.size();r++){
     if(r<lines.size()){
       debugv(2,lines[r]);
       debugv(2,"cliping to length"+std::to_string(diffabledisplay[r].size()));
     }
-    for(uint c=0;c<diffabledisplay[r].size();c++){
+    for(uint c=0;c<diffabledisplay[r].size()&&c<lines[r].size();c++){
       wmove(win,r,c);
       debugv(5,"diffabledisplay cursor moved");
-      if(r<lines.size()){
-	debugv(5,"size matched");
-	if(c<lines[r].size()){
 	  debugv(5,"size2 matched");
 	  if(lines[r]/*.c_str()*/[c]!=diffabledisplay[r][c]){
 	    debug(5,"update diffabledisplay location");
 	    diffabledisplay[r][c]=lines[r].c_str()[c];
 	    waddch(win,lines[r].c_str()[c]);
-	  }
-	  continue;
-	}
       }
       if(diffabledisplay[r][c]!=' '){
 	debugv(5,"diffabledisplay changed to space");
