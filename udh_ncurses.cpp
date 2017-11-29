@@ -59,7 +59,7 @@ void udh_screen::correctDiffabledisplaySize(){
 
 void udh_screen::refreshScreen(){
   if(!refreshed){
-    wrefresh(win);
+    wrefresh(win); //i'm guessing that this is an expensive call?
     refreshed=true;
   }
 }
