@@ -52,6 +52,7 @@ void udh_screen::initilizeNcurses(){
   win=newwin(screenRows,screenCols,0,0);
   //mainbuffer.setSize(screenRows,screenCols);
   correctDiffabledisplaySize();
+  refreshScreen();
 }
 
 void udh_screen::refreshScreen(){
