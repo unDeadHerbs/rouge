@@ -84,15 +84,10 @@ void udh_screen::drawToScreen(std::deque<std::string> lines){
     for(uint c=0;c<diffabledisplay[r].size()&&c<lines[r].size();c++){
       wmove(win,r,c);
       debugv(5,"diffabledisplay cursor moved");
-	  debugv(5,"size2 matched");
-	  if(lines[r]/*.c_str()*/[c]!=diffabledisplay[r][c]){
-	    debug(5,"update diffabledisplay location");
-	    diffabledisplay[r][c]=lines[r].c_str()[c];
-	    waddch(win,lines[r].c_str()[c]);
-      }
-      if(diffabledisplay[r][c]!=' '){
-	debugv(5,"diffabledisplay changed to space");
-	waddch(win,diffabledisplay[r][c]=' ');
+      if(lines[r]/*.c_str()*/[c]!=diffabledisplay[r][c]){
+	debug(5,"update diffabledisplay location "+std::to_string(r)+","+std::to_string(c)+" to "+lines[r].c_str()[c]);
+	diffabledisplay[r][c]=lines[r].c_str()[c];
+	waddch(win,lines[r].c_str()[c]);
       }
     }
   }
