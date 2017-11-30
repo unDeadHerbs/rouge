@@ -31,3 +31,5 @@ clean:
 
 cleanwarn:
 	rm -f warnings.log
+format:
+	find|egrep '.*[.](cpp|cxx|cc|c++|c|tpp|txx)$$'|sed 's/[] ()'\''\\[&;]/\\&/g'|xargs clang-format -i
