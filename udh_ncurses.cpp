@@ -18,6 +18,7 @@ udh_screen::udh_screen() {
 	correctDisplaySize();
 	refreshScreen();
 }
+
 udh_screen::~udh_screen() {
 	endwin();
 }
@@ -29,33 +30,28 @@ void udh_screen::correctDisplaySize() {
 	debugv(4, "size was " + std::to_string(display.size()) + ":"
 	              + std::to_string(display.size() ? display[0].size() : 0));
 	if (display.size() != screenRows) {
-		for (uint i= display.size(); i < screenRows; i++) {
+		for (uint i= display.size(); i < screenRows; i++)
 			display.push_back("");
-		}
-		for (uint i= display.size(); i > screenRows; i--) {
+		for (uint i= display.size(); i > screenRows; i--)
 			display.pop_back();
-		}
 	}
 	if (display.size() && display[0].size() != screenCols) {
 		for (uint j= 0; j < display.size(); j++) {
 			debugv(5, "row size was "
 			              + std::to_string(display[j].size()));
-			for (uint i= display[j].size(); i < screenCols; i++) {
+			for (uint i= display[j].size(); i < screenCols; i++)
 				display[j].push_back(' ');
-			}
-			for (uint i= display[j].size(); i > screenCols; i--) {
+			for (uint i= display[j].size(); i > screenCols; i--)
 				display[j].pop_back();
-			}
 			debugv(5, "row size is now "
 			              + std::to_string(display[j].size()));
 		}
 	}
-	if (display.size() != 0) {
+	if (display.size() != 0)
 		debugv(4, "size is now " + std::to_string(display.size()) + ":"
 		              + std::to_string(display[0].size()));
-	} else {
+	else
 		debugv(4, "size is now 0:0");
-	}
 }
 
 void udh_screen::refreshScreen() {
