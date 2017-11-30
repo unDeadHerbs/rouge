@@ -56,6 +56,7 @@ void udh_screen::correctDisplaySize() {
 
 void udh_screen::refreshScreen() {
 	if (!refreshed) {
+		debug(2,"drawToScreen");
 		for (uint row= 0; row < display.size(); row++) {
 			wmove(win, row, 0);
 			waddstr(win, display[row].c_str());
