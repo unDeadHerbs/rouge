@@ -14,7 +14,7 @@ udh_screen::udh_screen(){
   getmaxyx(stdscr,screenRows,screenCols);
   debug(2,"screen size set to "+std::to_string(screenRows)+":"+std::to_string(screenCols));
   win=newwin(screenRows,screenCols,0,0);
-  correctDiffabledisplaySize();
+  correctDisplaySize();
   refreshScreen();
 
 }
@@ -22,36 +22,32 @@ udh_screen::~udh_screen(){
   endwin();
 }
 
-void udh_screen::correctDiffabledisplaySize(){
-  debug(3,"correctDiffabledisplaySize");
+void udh_screen::correctDisplaySize(){
+  debug(3,"correctDisplaySize");
   debug(4,"setting size to "+std::to_string(screenRows)+":"+std::to_string(screenCols));
-  if(diffabledisplay.size()!=0){
-    debugv(4,"size was "+std::to_string(diffabledisplay.size())+":"+std::to_string(diffabledisplay[0].size()));
-  }else{
-    debugv(4,"size was 0:0");
-  }
-  if(diffabledisplay.size()!=screenRows){
-    for(uint i=diffabledisplay.size();i<screenRows;i++){
-      diffabledisplay.push_back(std::deque<char>(' '));
+  debugv(4,"size was "+std::to_string(display.size())+":"+std::to_string(display.size()?display[0].size():0));
+  if(display.size()!=screenRows){
+    for(uint i=display.size();i<screenRows;i++){
+      display.push_back("");
     }
-    for(uint i=diffabledisplay.size();i>screenRows;i--){
-      diffabledisplay.pop_back();
+    for(uint i=display.size();i>screenRows;i--){
+      display.pop_back();
     }
   }
-  if(diffabledisplay.size() && diffabledisplay[0].size()!=screenCols){
-    for(uint j=0;j<diffabledisplay.size();j++){
-      debugv(5,"row size was "+std::to_string(diffabledisplay[j].size()));
-      for(uint i=diffabledisplay[j].size();i<screenCols;i++){
-	diffabledisplay[j].push_back(' ');
+  if(display.size() && display[0].size()!=screenCols){
+    for(uint j=0;j<display.size();j++){
+      debugv(5,"row size was "+std::to_string(display[j].size()));
+      for(uint i=display[j].size();i<screenCols;i++){
+	display[j].push_back(' ');
       }
-      for(uint i=diffabledisplay[j].size();i>screenCols;i--){
-	diffabledisplay[j].pop_back();
+      for(uint i=display[j].size();i>screenCols;i--){
+	display[j].pop_back();
       }
-      debugv(5,"row size is now "+std::to_string(diffabledisplay[j].size()));
+      debugv(5,"row size is now "+std::to_string(display[j].size()));
     }
   }
-  if(diffabledisplay.size()!=0){
-    debugv(4,"size is now "+std::to_string(diffabledisplay.size())+":"+std::to_string(diffabledisplay[0].size()));
+  if(display.size()!=0){
+    debugv(4,"size is now "+std::to_string(display.size())+":"+std::to_string(display[0].size()));
   }else{
     debugv(4,"size is now 0:0");
   }
@@ -59,28 +55,22 @@ void udh_screen::correctDiffabledisplaySize(){
 
 void udh_screen::refreshScreen(){
   if(!refreshed){
-    wrefresh(win); //i'm guessing that this is an expensive call?
+    for(uint row=0;row<display.size();row++){
+      wmove(win,row,0);
+      waddstr(win,display[row].c_str());
+    }
+    wrefresh(win); //i'm guessing that this is an expensive call
     refreshed=true;
   }
 }
 
 void udh_screen::drawToScreen(std::deque<std::string> lines,uint x,uint y){
-  //TODO ablility to update a rectangle of the screen
   refreshed=false;
-  debug(2,"drawToScreen");
-  for(uint r=0;r+y<diffabledisplay.size()&&r<lines.size();r++){
-    if(r<lines.size()){
-      debugv(2,lines[r]);
-      debugv(2,"cliping to length"+std::to_string(diffabledisplay[r].size()));
-    }
-    for(uint c=0;c+x<diffabledisplay[r].size()&&c<lines[r].size();c++){
-      wmove(win,r+y,c+x);
-      debugv(5,"diffabledisplay cursor moved");
-      if(lines[r]/*.c_str()*/[c]!=diffabledisplay[r][c]){
-	debug(5,"update diffabledisplay location "+std::to_string(r)+","+std::to_string(c)+" to "+lines[r].c_str()[c]);
-	diffabledisplay[r+y][c+x]=lines[r].c_str()[c];
-	waddch(win,lines[r].c_str()[c]);
-      }
+  debug(2,"drawToBuffer");
+  for(uint r=0;r+y<display.size()&&r<lines.size();r++){
+    for(uint c=0;c+x<display[r].size()&&c<lines[r].size();c++){
+      debug(5,"update display location "+std::to_string(r)+","+std::to_string(c)+" to "+lines[r].c_str()[c]);
+      display[r+y][c+x]=lines[r].c_str()[c];
     }
   }
 }
@@ -93,7 +83,5 @@ void udh_screen::screenResizedTriger(int code){
 }
 
 int udh_screen::getKey(){
-  int ch;
-  ch=getch();
-  return ch;
+  return getch();
 }

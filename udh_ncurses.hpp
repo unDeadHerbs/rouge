@@ -14,9 +14,10 @@ private:
   bool refreshed;
   typedef unsigned int uint;
   uint cursorRow, cursorCol,screenRows,screenCols;
-  std::deque<std::deque<char> > diffabledisplay;
+  //std::deque<std::deque<char> > next_display; // for if too slow
+  std::deque<std::string> display;
 
-  void correctDiffabledisplaySize();
+  void correctDisplaySize();
 
   /**
    * Anti-Copy Constructor
