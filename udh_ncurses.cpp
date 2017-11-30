@@ -61,7 +61,7 @@ void udh_screen::refreshScreen() {
 			wmove(win, row, 0);
 			waddstr(win, display[row].c_str());
 		}
-		wrefresh(win); // i'm guessing that this is an expensive call
+		wrefresh(win); // i'm think that this is an expensive call
 		refreshed= true;
 		wmove(win,cursorRow,cursorCol);
 	}
