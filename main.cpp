@@ -17,5 +17,13 @@ int main(){
   usleep(3*1000*1000);
   Screen.refreshScreen();
   usleep(3*1000*1000);
+  deque<string> test2;
+  test2.push_back("this is");
+  test2.push_back("some text");
+  test2.push_back("row three");
+  Screen.drawToScreen(test2,20,20);
+  usleep(3*1000*1000);
+  Screen.refreshScreen();
+  usleep(3*1000*1000);
   return 0;
 }
