@@ -1,6 +1,7 @@
 #include <ncurses.h>
 #include <deque>
 #include <string>
+#include <utility>
 
 /**
  * A small wrapper for ncurses.
@@ -59,5 +60,7 @@ public:
   /**
    * Read in one char from the user.
    */
-  int getKey();
+  int getKey()const;
+
+  std::pair<uint,uint> size()const;
 };

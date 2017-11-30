@@ -82,6 +82,10 @@ void udh_screen::screenResizedTriger(int code){
   refreshScreen();
 }
 
-int udh_screen::getKey(){
+int udh_screen::getKey()const{
   return getch();
+}
+
+std::pair<uint,uint> udh_screen::size()const{
+  return std::make_pair(screenRows,screenCols);
 }
