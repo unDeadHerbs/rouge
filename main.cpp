@@ -8,8 +8,10 @@ using std::deque;
 
 int main(){
   debug("starting");
+
   udh_screen Screen;
   usleep(1*1000*1000);
+
   deque<string> new_rows;
   new_rows.push_back("row one");
   new_rows.push_back("row two");
@@ -17,6 +19,7 @@ int main(){
   usleep(3*1000*1000);
   Screen.refreshScreen();
   usleep(3*1000*1000);
+
   deque<string> test2;
   test2.push_back("this is");
   test2.push_back("some text");
@@ -25,5 +28,6 @@ int main(){
   usleep(3*1000*1000);
   Screen.refreshScreen();
   usleep(3*1000*1000);
+
   return 0;
 }
