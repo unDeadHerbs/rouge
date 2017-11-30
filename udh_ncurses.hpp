@@ -26,12 +26,13 @@ private:
    * Making a private copy constructor to prevent usage.
    */
   udh_screen(udh_screen const&){}
+
   /**
    * Anti-Asignment Operator
    *
    * Making a prevent asignment operator to prevent usage.
    */
-  udh_screen operator=(udh_screen const&){}
+  udh_screen operator=(udh_screen const&){return *this;}
 public:
   udh_screen();
   ~udh_screen();
