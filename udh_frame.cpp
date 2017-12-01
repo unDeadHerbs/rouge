@@ -1,8 +1,21 @@
 #include "udh_frame.hpp"
 #include "debug.hpp"
 
-std::string &udh_frame::operator[](int rhs) {
+udh_frame::udh_frame(char ch) {
+	frame.push_back("");
+	frame[0].push_back(ch);
+}
+
+udh_frame::udh_frame(std::string s) {
+	frame.push_back(s);
+}
+
+std::string &udh_frame::operator[](uint rhs) {
 	return frame[rhs];
+}
+
+char &udh_frame::operator[](std::pair<uint, uint> rhs) {
+	return frame[rhs.first][rhs.second];
 }
 
 void udh_frame::add_row(std::string row) {
@@ -46,7 +59,7 @@ void udh_frame::drop_row() {
 	frame.pop_back();
 }
 
-void udh_frame::place_frame(udh_frame sub, int row, int col) {
+void udh_frame::place(udh_frame sub, int row, int col) {
 	debug(2, "Placing sub-Frame");
 	for (uint r= std::max(0, row);
 	     r < size().first && r - row < sub.size().first; r++) {
@@ -59,4 +72,7 @@ void udh_frame::place_frame(udh_frame sub, int row, int col) {
 			frame[r][c]= sub[r - row][c - col];
 		}
 	}
+}
+void udh_frame::place(udh_frame sub, std::pair<int, int> pos) {
+	place(sub, pos.first, pos.second);
 }

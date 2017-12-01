@@ -17,14 +17,14 @@ int main() {
 	map.add_row("|                 |");
 	map.add_row("+-----------------+");
 
-	main_frame.place_frame(map);
+	main_frame.place(map);
 
 	std::pair<uint, uint> me= {2, 4};
 
 	char ch;
 	do {
-		main_frame.place_frame(map);
-		main_frame[me.first][me.second]= '@';
+		main_frame.place(map);
+		main_frame.place('@', me);
 
 		Screen.refreshScreen();
 		ch= Screen.getKey();
