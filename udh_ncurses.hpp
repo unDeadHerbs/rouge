@@ -2,9 +2,8 @@
 #define __UDH_NCURSES__
 
 #include <ncurses.h>
-#include <deque>
-#include <string>
 #include <utility>
+#include "udh_frame.hpp"
 
 /**
  * A small wrapper for ncurses.
@@ -19,7 +18,7 @@ private:
   typedef unsigned int uint;
   uint screenRows,screenCols;
   //std::deque<std::deque<char> > next_display; // for if too slow
-  std::deque<std::string> display;
+  udh_frame display;
 
   void correctDisplaySize();
 
@@ -50,7 +49,7 @@ public:
    *
    * @param y The strating row to print in.
    */
-  void drawToScreen(std::deque<std::string> lines,uint x=0,uint y=0);
+  void drawToScreen(udh_frame lines,uint x=0,uint y=0);
 
   /**
    * Actuly render the chars to the screen.

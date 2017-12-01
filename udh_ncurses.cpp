@@ -68,8 +68,7 @@ void udh_screen::refreshScreen() {
 	}
 }
 
-void udh_screen::drawToScreen(std::deque<std::string> lines, uint row,
-                              uint col) {
+void udh_screen::drawToScreen(udh_frame lines, uint row, uint col) {
 	refreshed= false;
 	debug(2, "drawToBuffer");
 	for (uint r= 0; r + row < display.size() && r < lines.size(); r++) {
