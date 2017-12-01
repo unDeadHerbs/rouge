@@ -45,3 +45,18 @@ void udh_frame::resize(uint rows, uint cols) {
 void udh_frame::drop_row() {
 	frame.pop_back();
 }
+
+void udh_frame::place_frame(udh_frame sub, int row, int col) {
+	debug(2, "Placing sub-Frame");
+	for (uint r= std::max(0, row);
+	     r < size().first && r - row < sub.size().first; r++) {
+		for (uint c= std::max(0, col);
+		     c < frame[r].size() && c - col < sub[r - row].size();
+		     c++) {
+			debug(5, "update display location " + std::to_string(r)
+			             + "," + std::to_string(c) + " to "
+			             + sub[r - row][c - col]);
+			frame[r][c]= sub[r - row][c - col];
+		}
+	}
+}

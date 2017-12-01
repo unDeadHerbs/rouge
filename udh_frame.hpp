@@ -19,6 +19,8 @@ public:
   std::pair<uint,uint> size()const;
   void resize(uint rows,uint cols);
   void drop_row();
+  void place_frame(udh_frame sub_frame,int row=0,int col=0);
+  udh_frame clip(uint from_row,uint from_col,uint rows,uint cols);
 };
 
 #endif
