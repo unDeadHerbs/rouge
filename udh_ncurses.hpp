@@ -1,3 +1,6 @@
+#ifndef __UDH_NCURSES__
+#define __UDH_NCURSES__
+
 #include <ncurses.h>
 #include <deque>
 #include <string>
@@ -66,3 +69,5 @@ public:
 
   std::pair<uint,uint> size()const;
 };
+
+#endif
