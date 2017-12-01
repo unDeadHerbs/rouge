@@ -46,6 +46,7 @@ void udh_screen::screenResizedTriger(int code) {
 }
 
 int udh_screen::getKey() const {
+	nodelay(stdscr, FALSE);
 	return getch();
 }
 
