@@ -4,7 +4,7 @@ CXXFLAGS    = -std=c++1z -Wall -Wextra -Wparentheses -g
 HPPS        = $(wildcard *.hpp)
 OBJECTS     = $(HPPS:.hpp=.o)
 
-all: tags mains clean
+all: format tags mains clean
 
 mains: $(OBJECTS)
 	-for f in `ls *.*` ; do \
