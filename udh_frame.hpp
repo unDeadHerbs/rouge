@@ -16,7 +16,8 @@ private:
 public:
   std::string& operator[](int rhs);
   void add_row(std::string row);
-  uint size()const;
+  std::pair<uint,uint> size()const;
+  void resize(uint rows,uint cols);
   void drop_row();
 };
 

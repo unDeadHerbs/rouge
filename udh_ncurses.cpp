@@ -15,7 +15,7 @@ udh_screen::udh_screen() {
 	debug(2, "screen size set to " + std::to_string(screenRows) + ":"
 	             + std::to_string(screenCols));
 	win= newwin(screenRows, screenCols, 0, 0);
-	correctDisplaySize();
+	display.resize(screenRows, screenCols);
 	cursor= std::make_pair(screenRows - 1, screenCols - 1);
 	refreshScreen();
 }
@@ -24,41 +24,10 @@ udh_screen::~udh_screen() {
 	endwin();
 }
 
-void udh_screen::correctDisplaySize() {
-	debug(3, "correctDisplaySize");
-	debug(4, "setting size to " + std::to_string(screenRows) + ":"
-	             + std::to_string(screenCols));
-	debugv(4, "size was " + std::to_string(display.size()) + ":"
-	              + std::to_string(display.size() ? display[0].size() : 0));
-	if (display.size() != screenRows) {
-		for (uint i= display.size(); i < screenRows; i++)
-			display.add_row("");
-		for (uint i= display.size(); i > screenRows; i--)
-			display.drop_row();
-	}
-	if (display.size() && display[0].size() != screenCols) {
-		for (uint j= 0; j < display.size(); j++) {
-			debugv(5, "row size was "
-			              + std::to_string(display[j].size()));
-			for (uint i= display[j].size(); i < screenCols; i++)
-				display[j].push_back(' ');
-			for (uint i= display[j].size(); i > screenCols; i--)
-				display[j].pop_back();
-			debugv(5, "row size is now "
-			              + std::to_string(display[j].size()));
-		}
-	}
-	if (display.size() != 0)
-		debugv(4, "size is now " + std::to_string(display.size()) + ":"
-		              + std::to_string(display[0].size()));
-	else
-		debugv(4, "size is now 0:0");
-}
-
 void udh_screen::refreshScreen() {
 	if (!refreshed) {
 		debug(2, "drawToScreen");
-		for (uint row= 0; row < display.size(); row++) {
+		for (uint row= 0; row < display.size().first; row++) {
 			wmove(win, row, 0);
 			waddstr(win, display[row].c_str());
 		}
@@ -71,7 +40,8 @@ void udh_screen::refreshScreen() {
 void udh_screen::drawToScreen(udh_frame lines, uint row, uint col) {
 	refreshed= false;
 	debug(2, "drawToBuffer");
-	for (uint r= 0; r + row < display.size() && r < lines.size(); r++) {
+	for (uint r= 0;
+	     r + row < display.size().first && r < lines.size().first; r++) {
 		for (uint c= 0;
 		     c + col < display[r].size() && c < lines[r].size(); c++) {
 			debug(5, "update display location " + std::to_string(r)

@@ -1,7 +1,7 @@
 #ifndef __UDH_NCURSES__
 #define __UDH_NCURSES__
 
-#include <ncurses.h>
+#include <ncurses.h> //move this into the cpp and use void* for WINDOW*
 #include <utility>
 #include "udh_frame.hpp"
 
@@ -19,8 +19,6 @@ private:
   uint screenRows,screenCols;
   //std::deque<std::deque<char> > next_display; // for if too slow
   udh_frame display;
-
-  void correctDisplaySize();
 
   /**
    * Anti-Copy Constructor
