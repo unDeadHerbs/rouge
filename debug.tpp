@@ -1,8 +1,8 @@
 #ifndef __DEBUG_TPP__
 #define __DEBUG_TPP__
 
-#include "defines.hpp"
 #include "debug.hpp"
+#include "defines.hpp"
 #ifdef _UDH_DEBUGGER
 #include <iostream>
 
@@ -10,8 +10,8 @@ using std::cout;
 using std::endl;
 using std::ofstream;
 
-template<typename str>
-void debug(int level,str mesg,int warning){
+template <typename str>
+void debug(int level, str mesg, int warning) {
 	ofstream logfile;
 	logfile.open("warnings.log",std::ios::app);
 	if(warning>WARNING){
@@ -57,27 +57,26 @@ void debug(int level,str mesg,int warning){
 	}
 }
 
-template<typename str>
-void debug(int level,str mesg,bool warning){
-	if(warning)
-		debug(level,mesg,level);
+template <typename str>
+void debug(int level, str mesg, bool warning) {
+	if (warning)
+		debug(level, mesg, level);
 	else
-		debug(level,mesg,0);
+		debug(level, mesg, 0);
 }
-template<typename str>
-void debug(str mesg,bool warning){
-	debug(0,mesg,warning);
+template <typename str>
+void debug(str mesg, bool warning) {
+	debug(0, mesg, warning);
 }
-template<typename str>
-void debugv(int level,str mesg,bool warning){
-	#if VERBOSE>0
-		if(level<=VERBOSE)
-			debug(level,mesg,warning);
-	#endif
+template <typename str>
+void debugv(int level, str mesg, bool warning) {
+#if VERBOSE > 0
+	if (level <= VERBOSE) debug(level, mesg, warning);
+#endif
 }
-template<typename str>
-void debugv(str mesg,bool warning){
-	debugv(0,mesg,warning);
+template <typename str>
+void debugv(str mesg, bool warning) {
+	debugv(0, mesg, warning);
 }
 
 #endif

@@ -1,10 +1,14 @@
 CXX         = clang++
 LIBARYFLAGS = -lncurses
-CXXFLAGS    = -std=c++1z -Wall -Wextra -Wparentheses -g
+CXXFLAGS    = -std=c++1z -Wall -Wextra -Wparentheses -g $(SANS)
 HPPS        = $(wildcard *.hpp)
 OBJECTS     = $(HPPS:.hpp=.o)
 
-all: tags mains clean
+all: format tags mains clean
+seg: msan
+
+msan:
+	make all SANS=-fsanitize=address
 
 mains: $(OBJECTS)
 	-for f in `ls *.*` ; do \
@@ -31,3 +35,5 @@ clean:
 
 cleanwarn:
 	rm -f warnings.log
+format:
+	find|egrep '.*[.](cpp|cxx|cc|c++|c|tpp|txx)$$'|sed 's/[] ()'\''\\[&;]/\\&/g'|xargs clang-format -i
