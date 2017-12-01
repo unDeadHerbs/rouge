@@ -15,9 +15,9 @@ private:
   std::deque<std::string> frame;
 public:
   std::string& operator[](int rhs);
-  void push_back(std::string row);
+  void add_row(std::string row);
   uint size()const;
-  void pop_back();
+  void drop_row();
 };
 
 #endif

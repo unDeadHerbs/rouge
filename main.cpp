@@ -9,24 +9,24 @@ int main() {
 	usleep(1 * 1000 * 1000);
 
 	udh_frame new_rows;
-	new_rows.push_back("row one");
-	new_rows.push_back("row two");
+	new_rows.add_row("row one");
+	new_rows.add_row("row two");
 	Screen.drawToScreen(new_rows);
 	usleep(1 * 1000 * 1000);
 	Screen.refreshScreen();
 	usleep(1 * 1000 * 1000);
 
 	udh_frame test2;
-	test2.push_back("this is");
-	test2.push_back("some text");
-	test2.push_back("row three");
+	test2.add_row("this is");
+	test2.add_row("some text");
+	test2.add_row("row three");
 	Screen.drawToScreen(test2, 20, 20);
 	usleep(1 * 1000 * 1000);
 	Screen.refreshScreen();
 	usleep(1 * 1000 * 1000);
 
 	udh_frame prompt;
-	prompt.push_back("type here:");
+	prompt.add_row("type here:");
 	Screen.drawToScreen(prompt, 20, 0);
 	Screen.cursor= std::make_pair(20, prompt[0].size());
 	Screen.refreshScreen();

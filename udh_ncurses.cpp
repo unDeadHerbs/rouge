@@ -32,9 +32,9 @@ void udh_screen::correctDisplaySize() {
 	              + std::to_string(display.size() ? display[0].size() : 0));
 	if (display.size() != screenRows) {
 		for (uint i= display.size(); i < screenRows; i++)
-			display.push_back("");
+			display.add_row("");
 		for (uint i= display.size(); i > screenRows; i--)
-			display.pop_back();
+			display.drop_row();
 	}
 	if (display.size() && display[0].size() != screenCols) {
 		for (uint j= 0; j < display.size(); j++) {
