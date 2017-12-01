@@ -1,5 +1,6 @@
 #include "udh_ncurses.hpp"
 #include "debug.hpp"
+#include <ncurses.h>
 
 udh_screen::udh_screen() {
 	static bool first= true;
@@ -31,16 +32,16 @@ udh_frame &udh_screen::frame() {
 void udh_screen::refreshScreen() {
 	debug(2, "drawToScreen");
 	for (uint row= 0; row < display.size().first; row++) {
-		wmove(win, row, 0);
-		waddstr(win, display[row].c_str());
+		wmove((WINDOW *)win, row, 0);
+		waddstr((WINDOW *)win, display[row].c_str());
 	}
-	wmove(win, cursor.first, cursor.second);
-	wrefresh(win);
+	wmove((WINDOW *)win, cursor.first, cursor.second);
+	wrefresh((WINDOW *)win);
 }
 
 void udh_screen::screenResizedTriger(int code) {
 	debug(1, "screenResizedTriger: " + std::to_string(code));
-	getmaxyx(win, screenRows, screenCols);
+	getmaxyx((WINDOW *)win, screenRows, screenCols);
 	refreshScreen();
 }
 

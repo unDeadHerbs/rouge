@@ -1,7 +1,6 @@
 #ifndef __UDH_NCURSES__
 #define __UDH_NCURSES__
 
-#include <ncurses.h> //move this into the cpp and use void* for WINDOW*
 #include <utility>
 #include "udh_frame.hpp"
 
@@ -13,7 +12,12 @@
  */
 class udh_screen{
 private:
-  WINDOW* win;
+  /*
+   * This is a pointer to a WINDOW object in ncurses, but the ncurses
+   * libaray makes a bunch of globabl variables so i'm encapsulating
+   * it in udh_frame.cpp where it won't bother anything else.
+   */
+  void* win;
   typedef unsigned int uint;
   uint screenRows,screenCols;
   //std::deque<std::deque<char> > next_display; // for if too slow
