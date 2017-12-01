@@ -31,8 +31,8 @@ int main() {
 
 	deque<string> prompt;
 	prompt.push_back("type here:");
-	Screen.drawToScreen(prompt, 20,0);
-	Screen.cursor= std::make_pair(20,prompt[0].size());
+	Screen.drawToScreen(prompt, 20, 0);
+	Screen.cursor= std::make_pair(20, prompt[0].size());
 	Screen.refreshScreen();
 	usleep(3 * 1000 * 1000);
 	return 0;

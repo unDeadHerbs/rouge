@@ -16,6 +16,7 @@ udh_screen::udh_screen() {
 	             + std::to_string(screenCols));
 	win= newwin(screenRows, screenCols, 0, 0);
 	correctDisplaySize();
+	cursor= std::make_pair(screenRows - 1, screenCols - 1);
 	refreshScreen();
 }
 
@@ -56,27 +57,28 @@ void udh_screen::correctDisplaySize() {
 
 void udh_screen::refreshScreen() {
 	if (!refreshed) {
-		debug(2,"drawToScreen");
+		debug(2, "drawToScreen");
 		for (uint row= 0; row < display.size(); row++) {
 			wmove(win, row, 0);
 			waddstr(win, display[row].c_str());
 		}
+		wmove(win, cursor.first, cursor.second);
 		wrefresh(win); // i'm think that this is an expensive call
 		refreshed= true;
-		wmove(win,cursorRow,cursorCol);
 	}
 }
 
-void udh_screen::drawToScreen(std::deque<std::string> lines, uint x, uint y) {
+void udh_screen::drawToScreen(std::deque<std::string> lines, uint row,
+                              uint col) {
 	refreshed= false;
 	debug(2, "drawToBuffer");
-	for (uint r= 0; r + y < display.size() && r < lines.size(); r++) {
+	for (uint r= 0; r + row < display.size() && r < lines.size(); r++) {
 		for (uint c= 0;
-		     c + x < display[r].size() && c < lines[r].size(); c++) {
+		     c + col < display[r].size() && c < lines[r].size(); c++) {
 			debug(5, "update display location " + std::to_string(r)
 			             + "," + std::to_string(c) + " to "
 			             + lines[r].c_str()[c]);
-			display[r + y][c + x]= lines[r].c_str()[c];
+			display[r + row][c + col]= lines[r].c_str()[c];
 		}
 	}
 }

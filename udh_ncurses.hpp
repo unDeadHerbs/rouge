@@ -14,7 +14,7 @@ private:
   WINDOW* win;
   bool refreshed;
   typedef unsigned int uint;
-  uint cursorRow, cursorCol,screenRows,screenCols;
+  uint screenRows,screenCols;
   //std::deque<std::deque<char> > next_display; // for if too slow
   std::deque<std::string> display;
 
@@ -34,6 +34,7 @@ private:
    */
   udh_screen operator=(udh_screen const&){return *this;}
 public:
+  std::pair<uint,uint> cursor;
   udh_screen();
   ~udh_screen();
 
