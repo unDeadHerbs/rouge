@@ -1,25 +1,33 @@
 CXX         = clang++
 LIBARYFLAGS = -lncurses
 CXXFLAGS    = -std=c++1z -Wall -Wextra -Wparentheses -g $(SANS)
-HPPS        = $(wildcard *.hpp)
-OBJECTS     = $(HPPS:.hpp=.o)
 
-all: format tags mains clean
+# auto generate dependencies stolen from
+# http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/
+DEPDIR      = .d
+$(shell mkdir -p $(DEPDIR) > /dev/null)
+DEPFLAGS    = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
+COMPILECXX  = $(CXX) $(DEPFLAGS) $(CXXFLAGS)
+POSTCOMPILE = @mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
+
+all: format tags mains
 seg: msan
 
 msan:
 	make all SANS=-fsanitize=address
 
-mains: $(OBJECTS)
+mains:
 	-for f in `ls *.*` ; do \
 		etags $$f -o - | grep "int main(" - > /dev/null && echo $$f | sed -e 's/[.][^.]*$$/.bin/' -e 's/.*/make &/' |sh; \
 	done
 
-%.bin: $(OBJECTS) %.o
-	$(CXX) $(CXXFLAGS) $(LIBARYFLAGS) -o $@ $?
+%.bin: %.o
+	$(COMPILECXX) $(LIBARYFLAGS) -o $@ $?
 
-%.o: %.cpp %.hpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+%.o: %.cpp
+%.o: %.cpp $(DEPDIR)/%.d
+	$(COMPILECXX) -c $< -o $@
+	$(POSTCOMPILE)
 
 check-syntax: csyntax
 
@@ -37,3 +45,7 @@ cleanwarn:
 	rm -f warnings.log
 format:
 	find|egrep '.*[.](cpp|cxx|cc|c++|c|tpp|txx)$$'|sed 's/[] ()'\''\\[&;]/\\&/g'|xargs clang-format -i
+
+.PRECIOUS: $(DEPDIR)/%.d
+
+include $(wildcard $(patsubst %,$(DEPDIR)/%.d,$(basemane $(SRCS))))
