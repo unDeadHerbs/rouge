@@ -10,42 +10,62 @@ DEPFLAGS    = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
 COMPILECXX  = $(CXX) $(DEPFLAGS) $(CXXFLAGS)
 POSTCOMPILE = @mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
 
-all: format tags mains
-seg: msan
+# more auot deps read
+# http:://www.gnu.org/software/make/manule/html_mode/Automatic-Prerequisites.html
 
+.PHOMY:all seg msan
+all: format TAGS deps mains
+seg: msan
 msan:
 	make all SANS=-fsanitize=address
 
+# generate the etags file
+TAGS:
+	@rm -f TAGS
+	@ls|grep "pp$$"|xargs -r etags -a
+	@echo "Generated Tags"
+
+# use the etags file to find all excicutables
+.PHOMY:mains
 mains:
-	-for f in `ls *.*` ; do \
-		etags $$f -o - | grep "int main(" - > /dev/null && echo $$f | sed -e 's/[.][^.]*$$/.bin/' -e 's/.*/make &/' |sh; \
+	-@for f in `ls *.*` ; do \
+		etags $$f -o - | grep "int main(" - > /dev/null && echo $$f | sed -e 's/[.][^.]*$$/.bin/' -e 's/.*/make --no-print-directory &/' |sh; \
 	done
 
-%.bin: %.o
-	$(COMPILECXX) $(LIBARYFLAGS) -o $@ $?
+.PHOMY:deps
+deps:
+	-@for f in `ls *.cpp` ; do \
+		echo $$f | sed -e 's,cpp$$,d,' -e 's/.*/make -s .d\/&/'|sh; \
+	done
 
-%.o: %.cpp
-%.o: %.cpp $(DEPDIR)/%.d
-	$(COMPILECXX) -c $< -o $@
-	$(POSTCOMPILE)
+# dependancy making
+.PRECIOUS: $(DEPDIR)/%.d
+$(DEPDIR)/%.d: %.cpp
+	@set -e; rm -f $@; \
+	 $(CXX) -MM $(CXXFLAGS) $< > $@.$$$$; \
+	 sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	 sed -e 's,[.]o\([ :]\),.bin\1,g' -e 's,[.][hc]pp\>,.o,g' -e 's,\<[a-zA-Z]*[.]tpp\>,,g' < $@.$$$$ >> $@; \
+	 printf '\t$$(CXX) $$(CXXFLAGS) $$(LIBARYFLAGS) -o $$@ $$?' >> $@; \
+	 echo >> $@; \
+	 rm -f $@.$$$$
+	@echo "remade $@"
 
+# emacs flycheck-mode
+.PHOMY:check-syntax csyntax
 check-syntax: csyntax
-
 csyntax:
 	$(CXX) $(CXXFLAGS) -c ${CHK_SOURCES} -o /dev/null
 
-tags:
-	rm -f TAGS
-	ls|grep "pp$$"|xargs -r etags -a
-
+.PHOMY: clean
 clean:
-	rm -f $(OBJECTS) $(EXEC).o
+	rm -f *.o *.bin .d/*.d
+	rmdir .d
 
-cleanwarn:
-	rm -f warnings.log
+.PHOMY: format
 format:
-	find|egrep '.*[.](cpp|cxx|cc|c++|c|tpp|txx)$$'|sed 's/[] ()'\''\\[&;]/\\&/g'|xargs clang-format -i
+	@find|egrep '.*[.](cpp|cxx|cc|c++|c|tpp|txx)$$'|sed 's/[] ()'\''\\[&;]/\\&/g'|xargs clang-format -i
+	@echo "reformatted code"
 
-.PRECIOUS: $(DEPDIR)/%.d
 
-include $(wildcard $(patsubst %,$(DEPDIR)/%.d,$(basemane $(SRCS))))
+include $(wildcard $(DEPDIR)/*.d)
+include $(wildcard *.d)
