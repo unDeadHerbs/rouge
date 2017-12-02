@@ -12,6 +12,7 @@ using std::ofstream;
 
 template <typename str>
 void debug(int level, str mesg, int warning) {
+	if (level >= VERBOSE) return;
 	ofstream logfile;
 	logfile.open("warnings.log",std::ios::app);
 	if(warning>WARNING){
@@ -71,7 +72,7 @@ void debug(str mesg, bool warning) {
 template <typename str>
 void debugv(int level, str mesg, bool warning) {
 #if VERBOSE > 0
-	if (level <= VERBOSE) debug(level, mesg, warning);
+	debug(level, mesg, warning);
 #endif
 }
 template <typename str>
