@@ -2,17 +2,6 @@ CXX         = clang++
 LIBARYFLAGS = -lncurses
 CXXFLAGS    = -std=c++1z -Wall -Wextra -Wparentheses -g $(SANS)
 
-# auto generate dependencies stolen from
-# http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/
-DEPDIR      = .d
-$(shell mkdir -p $(DEPDIR) > /dev/null)
-DEPFLAGS    = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.Td
-COMPILECXX  = $(CXX) $(DEPFLAGS) $(CXXFLAGS)
-POSTCOMPILE = @mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
-
-# more auot deps read
-# http:://www.gnu.org/software/make/manule/html_mode/Automatic-Prerequisites.html
-
 .PHOMY:all seg msan
 all: format TAGS deps mains
 seg: msan
@@ -39,6 +28,8 @@ deps:
 	done
 
 # dependancy making
+DEPDIR      = .d
+$(shell mkdir -p $(DEPDIR) > /dev/null)
 .PRECIOUS: $(DEPDIR)/%.d
 $(DEPDIR)/%.d: %.cpp
 	@set -e; rm -f $@; \
