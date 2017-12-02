@@ -17,8 +17,10 @@ TAGS:
 # use the etags file to find all excicutables
 .PHOMY:mains
 mains:
-	-@for f in `ls *.*` ; do \
-		etags $$f -o - | grep "int main(" - > /dev/null && echo $$f | sed -e 's/[.][^.]*$$/.bin/' -e 's/.*/make --no-print-directory &/' |sh; \
+	@for f in `ls *.c*` ; do \
+		if etags $$f -o - | grep "int main(" - > /dev/null; \
+			then echo $$f | sed -e 's/[.][^.]*$$/.bin/' -e 's/.*/make --no-print-directory &/' |sh; \
+		fi ; \
 	done
 
 .PHOMY:deps
