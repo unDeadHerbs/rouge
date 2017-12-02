@@ -49,6 +49,7 @@ public:
   void place(udh_frame sub_frame,int row=0,int col=0);
   void place(udh_frame sub_frame,std::pair<int,int> pos);
   udh_frame clip(uint from_row,uint from_col,uint rows,uint cols);
+  void clear();
 };
 
 #endif

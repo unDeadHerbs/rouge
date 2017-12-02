@@ -80,3 +80,9 @@ void udh_frame::place(udh_frame sub, int row, int col) {
 void udh_frame::place(udh_frame sub, std::pair<int, int> pos) {
 	place(sub, pos.first, pos.second);
 }
+
+void udh_frame::clear() {
+	auto s= size();
+	resize(0, 0);
+	resize(s.first, s.second);
+}
