@@ -4,9 +4,9 @@ CXXFLAGS    = -std=c++1z -Wall -Wextra -Wparentheses -g $(SANS)
 
 .PHOMY:all seg msan
 all: format TAGS deps mains
-seg: msan
+seg: clean msan
 msan:
-	make all SANS=-fsanitize=address
+	make --no-print-directory all SANS=-fsanitize=address
 
 # generate the etags file
 TAGS:
