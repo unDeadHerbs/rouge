@@ -3,5 +3,5 @@
 	#define DEBUGGER 1
 	#define DEBUGLOG 1
 	#define DEBUG 1
-	#define VERBOSE 5
+	#define VERBOSE 4
 #endif
