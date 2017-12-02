@@ -14,8 +14,8 @@ private:
 public:
   bool running=true;
   RRGame(udh_frame* mf):main_frame(mf){
-    main_frame->place(map);
     player=map.getSpawn();
+    main_frame->place(map.view_port(player,5));
   }
   void handel_key(char ch){
     switch (ch) {
@@ -42,8 +42,7 @@ public:
     default:
       break;
     }
-    main_frame->place(map);
-    main_frame->place('@',player);
+    main_frame->place(map.view_port(player,5));
   }
 };
 

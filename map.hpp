@@ -1,6 +1,7 @@
 #ifndef __ROUGE_ROUGE_MAP__
 #define __ROUGE_ROUGE_MAP__
 
+#include <utility>
 #include "udh_frame.hpp"
 
 /**
@@ -31,6 +32,12 @@ public:
   
   char operator[](std::pair<uint, uint> rhs) {
     return map[rhs];
+  }
+  udh_frame view_port(std::pair<uint,uint> player, uint r){
+    udh_frame vp(2*r+1);
+    vp.place(map,std::make_pair(r-player.first,r-player.second));
+    vp.place('@',r,r);
+    return vp;
   }
 };
 

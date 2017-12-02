@@ -15,17 +15,24 @@ private:
   std::deque<std::string> frame;
 public:
   /**
-   * Default constructer.
+   * Default constructer
    *
-   * This does nothing as deque will already do the right thing
+   * This does nothing as deque will already do the right thing.
    */
   udh_frame(){}
   /**
-   * Casting constructor from char.
+   * Casting constructor from char
    *
    * Just so that memerb fucntions don't need to be duplicated.
    */
   udh_frame(char);
+
+  /**
+   * size constructor
+   *
+   * Create a frame of the given size.
+   */
+  udh_frame(uint);
   /**
    * Casting constructor from string.
    *

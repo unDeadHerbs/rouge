@@ -10,6 +10,10 @@ udh_frame::udh_frame(std::string s) {
 	frame.push_back(s);
 }
 
+udh_frame::udh_frame(uint r) {
+	resize(r, r);
+}
+
 std::string &udh_frame::operator[](uint rhs) {
 	return frame[rhs];
 }
