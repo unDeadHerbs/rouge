@@ -12,15 +12,29 @@ private:
   std::pair<uint, uint> spawn= {2, 4};
 public:
   RRMap(){
-    map.add_row("+-------+ +-------+");
-    map.add_row("|       | |       |");
-    map.add_row("|       | |       |");
-    map.add_row("|       | |       |");
-    map.add_row("+--+ +--+ +--+ +--+");
-    map.add_row("   | |       | |   ");
-    map.add_row("+--+ +-------+ +--+");
-    map.add_row("|                 |");
-    map.add_row("+-----------------+");
+    map.add_row("+-------+ +-------+ +-------+ +-------+");
+    map.add_row("|       | |       | |       | |       |");
+    map.add_row("|       | |       | |       | |       |");
+    map.add_row("|       | |       | |       | |       |");
+    map.add_row("+--+ +--+ +--+ +--+ +--+ +--+ +--+ +--+");
+    map.add_row("   | |       | |       | |       | |   ");
+    map.add_row("+--+ +-------+ +--+ +--+ +-------+ +--+");
+    map.add_row("|                 | |                 |");
+    map.add_row("+------------+ +--+ +--+ +------------+");
+    map.add_row("            ++ ++     ++ ++            ");
+    map.add_row("+-----------+   +-----+   +-----------+");
+    map.add_row("|                                     |");
+    map.add_row("+-----------+   +-----+   +-----------+");
+    map.add_row("            ++ ++     ++ ++            ");
+    map.add_row("+------------+ +--+ +--+ +------------+");
+    map.add_row("|                 | |                 |");
+    map.add_row("+--+ +-------+ +--+ +--+ +-------+ +--+");
+    map.add_row("   | |       | |       | |       | |   ");
+    map.add_row("+--+ +--+ +--+ +--+ +--+ +--+ +--+ +--+");
+    map.add_row("|       | |       | |       | |       |");
+    map.add_row("|       | |       | |       | |       |");
+    map.add_row("|       | |       | |       | |       |");
+    map.add_row("+-------+ +-------+ +-------+ +-------+");
   }
   std::pair<uint,uint> getSpawn()const{return spawn;}
   operator udh_frame&(){

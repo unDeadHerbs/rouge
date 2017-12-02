@@ -11,11 +11,13 @@ private:
   std::pair<uint, uint> player;
   udh_frame* main_frame;
   RRMap map;
+  uint view_size;
 public:
   bool running=true;
   RRGame(udh_frame* mf):main_frame(mf){
+    view_size=7;
     player=map.getSpawn();
-    main_frame->place(map.view_port(player,5));
+    main_frame->place(map.view_port(player,view_size));
   }
   void handel_key(char ch){
     switch (ch) {
@@ -42,7 +44,7 @@ public:
     default:
       break;
     }
-    main_frame->place(map.view_port(player,5));
+    main_frame->place(map.view_port(player,view_size));
   }
 };
 
