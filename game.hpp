@@ -4,6 +4,8 @@
 #include "udh_frame.hpp"
 #include "map.hpp"
 
+using namespace std::string_literals;
+
 /**
  */
 class RRGame{
@@ -12,46 +14,42 @@ private:
   udh_frame* main_frame;
   RRMap map;
   uint view_size;
-  std::string status;
-  uint status_length;
+  udh_frame status;
 public:
   bool running=true;
   RRGame(udh_frame* mf):main_frame(mf){
     view_size=7;
-    status_length=40;
+    status.resize(1,40);
     player=map.getSpawn();
     main_frame->place(map.view_port(player,view_size));
-    main_frame->place("Status: " + status,view_size*2+3);
+    main_frame->place("Status: "s,view_size*2+3);
+    main_frame->place(status,view_size*2+3,"Status: "s.size());
   }
   void handel_key(char ch){
     switch (ch) {
     case 'w':case 'W':
-      if (map[player.first - 1][player.second] == ' '){
+      if (map[player.first - 1][player.second] == ' ')
 	player.first--;
-      	status="";
-	  }else
-	status="That's a wall!";
+      else
+	status.place("That's a wall!"s);
       break;
     case 'a':case 'A':
-      if (map[player.first][player.second - 1] == ' '){
+      if (map[player.first][player.second - 1] == ' ')
 	player.second--;
-	status="";
-		  }else
-	status="That's a wall!";
+      else
+	status.place("That's a wall!"s);
       break;
     case 's':case 'S':
-      if (map[player.first + 1][player.second] == ' '){
+      if (map[player.first + 1][player.second] == ' ')
 	player.first++;
-	status="";
-      }else
-	status="That's a wall!";
+      else
+	status.place("That's a wall!"s);
       break;
     case 'd':case 'D':
-      if (map[player.first][player.second + 1] == ' '){
+      if (map[player.first][player.second + 1] == ' ')
 	player.second++;
-      status="";
-      }else
-	status="That's a wall!";
+      else
+	status.place("That's a wall!"s);
       break;
     case 'q':case 'Q':
       running=false;
