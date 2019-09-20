@@ -36,7 +36,8 @@ $(shell mkdir -p $(DEPDIR) > /dev/null)
 $(DEPDIR)/%.d: %.cpp
 	@set -e; rm -f $@; \
 	 $(CXX) -MM $(CXXFLAGS) $< > $@.$$$$; \
-	 sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	 echo ".INTERMEDIATE: $*.o" >> $@; \
+	 sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ >> $@; \
 	 sed -e 's,[.]o\([ :]\),.bin\1,g' -e 's,[.][hc]pp\>,.o,g' -e 's,\<[a-zA-Z]*[.]tpp\>,,g' < $@.$$$$ >> $@; \
 	 printf '\t$$(CXX) $$(CXXFLAGS) $$(LIBARYFLAGS) -o $$@ $$^' >> $@; \
 	 echo >> $@; \
